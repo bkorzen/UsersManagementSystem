@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Smoke Tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!--<link rel="stylesheet" href="/home/barti/IdeaProjects/SpringBoot/src/main/resources/vendor/bootstrap.min.css">-->
+</head>
+<body>
+
+<form autocomplete="off" action="#" th:action="@{/editGroup}"
+      th:object="${group}" method="post" role="form">
+    <h2>Edit user</h2>
+
+    <input type="hidden" th:field="*{id}"/>
+
+    Group name
+    <br />
+    <input type="text" th:field="*{groupName}"/> <br /><br />
+
+    <button type="submit" >Save changes</button>
+
+</form>
+
+</body>
+</html>

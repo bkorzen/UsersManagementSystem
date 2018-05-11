@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Smoke Tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!--<link rel="stylesheet" href="/home/barti/IdeaProjects/SpringBoot/src/main/resources/vendor/bootstrap.min.css">-->
+</head>
+<body>
+
+<form action="#" th:action="@{/addGroup}"
+      th:object="${group}" method="post" role="form">
+
+    <h2>Nowa Grupa</h2>
+
+    <!--<input type="text" th:field="*{id}" placeholder="Id" /><br /><br />-->
+
+    <input type="text" th:field="*{groupName}" placeholder="Group Name" /><br /><br />
+
+
+    <button type="submit" >Dodaj grupę</button>
+
+</form>
+
+</body>
+</html>

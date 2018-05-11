@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Smoke Tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!--<link rel="stylesheet" href="/home/barti/IdeaProjects/SpringBoot/src/main/resources/vendor/bootstrap.min.css">-->
+</head>
+<body>
+
+<form autocomplete="off" action="#" th:action="@{/editUser}"
+      th:object="${user}" method="post" role="form">
+    <h2>Edit user</h2>
+
+    <input type="hidden" th:field="*{id}"/>
+
+    Username
+    <br />
+    <input type="text" th:field="*{username}"/> <br /><br />
+
+    Password
+    <br />
+    <input type="text" th:field="*{hashPassword}" /><br /><br />
+
+    First name
+    <br />
+    <input type="text" th:field="*{firstName}" /><br /><br />
+
+    Last name
+    <br />
+    <input type="text" th:field="*{lastName}" /><br /><br />
+
+    Date of birth
+    <br />
+    <input type="text" th:field="*{dateOfBirth}" /><br /><br />
+
+    <button type="submit" >Save changes</button>
+
+</form>
+
+</body>
+</html>
