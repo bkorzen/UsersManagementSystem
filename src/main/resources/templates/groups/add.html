@@ -3,38 +3,38 @@
 <head>
     <title>Add Group</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}"/>
 </head>
 <body>
 <div class="container">
-<form  action="#" th:action="@{/groups/add}"
-      th:object="${group}" method="post" role="form">
+    <form action="#" th:action="@{/groups/add}"
+          th:object="${group}" method="post" role="form">
 
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Group name</label>
-        <div class="col-sm-10">
-            <input type="text" th:field="*{groupName}" placeholder="Group name" />
-        </div>
-    </div>
-
-    <fieldset class="form-group">
-        <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Add users to this group</legend>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Group name</label>
             <div class="col-sm-10">
-                <div class="form-check" th:each="user : ${users}">
-                    <input class="form-check-input" type="checkbox" name="usersList[]" th:value="${user.id}" />
-                    <span th:text="${user.username}" ></span>
-                </div>
+                <input type="text" th:field="*{groupName}" class="form-control" placeholder="Group name"/>
             </div>
         </div>
-    </fieldset>
 
-    <a href="/groups" class="btn btn-secondary">Back</a>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Add users to this group</legend>
+                <div class="col-sm-10">
+                    <div class="form-check" th:each="user : ${users}">
+                        <input class="form-check-input" type="checkbox" name="usersList[]" th:value="${user.id}"/>
+                        <span th:text="${user.username}"></span>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
 
-    <button type="submit" class="btn btn-primary">Add group</button>
+        <a href="/groups" class="btn btn-secondary">Back</a>
+
+        <button type="submit" class="btn btn-primary">Add group</button>
 
 
-</form>
+    </form>
 </div>
 </body>
 </html>

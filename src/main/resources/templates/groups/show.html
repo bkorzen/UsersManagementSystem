@@ -6,21 +6,21 @@
     <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}"/>
 </head>
 <body>
+<div class="container">
+    <ul class="list-group" style="font-size: xx-large">
+        <li class="list-group-item">
+            <span>Users assigned to group: </span>
+            <span style="font-weight: bold" th:text="${group.groupName}"></span>
+        </li>
+    </ul>
 
-<ul class="list-group" style="font-size: xx-large">
-    <li class="list-group-item">
-        <span>Users assigned to group: </span>
-        <span style="font-weight: bold" th:text="${group.groupName}" ></span>
-    </li>
-</ul>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="user : ${group.getUsers()}">
+            <a th:text="${user.username}" th:href="@{'/users/show?userId=' + ${user.id}}"></a>
+        </li>
+    </ul>
 
-<ul class="list-group">
-    <li class="list-group-item" th:each="user : ${group.getUsers()}">
-        <a th:text="${user.username}" th:href="@{'/users/show?userId=' + ${user.id}}"></a>
-    </li>
-</ul>
-
-<a href="/groups" class="btn btn-secondary">Back</a>
-
+    <a href="/groups" class="btn btn-secondary">Back</a>
+</div>
 </body>
 </html>

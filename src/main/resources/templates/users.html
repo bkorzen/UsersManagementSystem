@@ -3,7 +3,7 @@
 <head>
     <title>Users</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}"/>
 </head>
 <div class="container">
     <table class="table table-striped table-hover" th:object="${users}">
@@ -13,7 +13,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>
-            <th>Birth date</th>
+            <th>Birth Date</th>
             <th></th>
             <th></th>
             <th></th>
@@ -24,23 +24,23 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
-            <td><a th:text="${user.username}" th:href="@{'/users/show?userId=' + ${user.id}}"></a></td>
+            <td th:text="${user.username}"></td>
             <td th:text="${user.dateOfBirth}"></td>
             <td>
                 <form action="/users/delete" method="post">
-                    <input type="hidden" name="userId" th:value="${user.id}" />
-                    <button type="submit" class="btn btn-danger" >Delete</button>
+                    <input type="hidden" name="userId" th:value="${user.id}"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
             <td>
                 <form action="/users/edit" method="get">
-                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <input type="hidden" name="userId" th:value="${user.id}"/>
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
             </td>
             <td>
                 <form action="/users/edit" method="get">
-                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <input type="hidden" name="userId" th:value="${user.id}"/>
                     <a class="btn btn-primary" th:href="@{'/users/show?userId=' + ${user.id}}">Details</a>
                 </form>
             </td>
@@ -48,7 +48,6 @@
         </tbody>
     </table>
 
-    <a href="/" class="btn btn-secondary">Back</a>
     <a href="/groups" class="btn btn-secondary">Groups</a>
     <a href="/users/add" class="btn btn-primary">Add new user</a>
 </div>

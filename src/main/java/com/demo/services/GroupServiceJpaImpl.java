@@ -3,7 +3,6 @@ package com.demo.services;
 import com.demo.model.Group;
 import com.demo.model.User;
 import com.demo.repositories.GroupRepository;
-import com.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,6 @@ public class GroupServiceJpaImpl implements GroupService {
         for (User u : users) {
             u.getGroups().remove(group);
         }
-//        group.getUsers().removeAll(group.getUsers());
         groupRepo.delete(group);
     }
 }
