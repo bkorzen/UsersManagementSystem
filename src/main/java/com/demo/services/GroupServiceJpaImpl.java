@@ -6,8 +6,10 @@ import com.demo.repositories.GroupRepository;
 import com.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GroupServiceJpaImpl implements GroupService {
@@ -36,7 +38,14 @@ public class GroupServiceJpaImpl implements GroupService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        groupRepo.delete(id);
+        Group group = groupRepo.findOne(id);
+        Set<User> users = group.getUsers();
+        for (User u : users) {
+            u.getGroups().remove(group);
+        }
+//        group.getUsers().removeAll(group.getUsers());
+        groupRepo.delete(group);
     }
 }

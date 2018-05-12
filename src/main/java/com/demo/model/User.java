@@ -4,6 +4,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,7 +18,7 @@ public class User {
     private String username;
 
     @Column(length = 60)
-    private String hashPassword;
+    private String password;
 
     @Column(length = 50)
     private String firstName;
@@ -28,10 +30,14 @@ public class User {
     @Type(type = "date")
     private Date dateOfBirth;
 
-    public User(Long id, String username, String hashPassword, String firstName, String lastName, Date dateOfBirth) {
+    @ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<Group> groups = new HashSet<>();
+
+    public User(Long id, String username, String password, String firstName, String lastName, Date dateOfBirth) {
         this.id = id;
         this.username = username;
-        this.hashPassword = hashPassword;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -55,12 +61,12 @@ public class User {
         this.username = username;
     }
 
-    public String getHashPassword() {
-        return hashPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashPassword(String hashPassword) {
-        this.hashPassword = hashPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -85,5 +91,13 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }

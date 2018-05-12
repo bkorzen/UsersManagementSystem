@@ -4,6 +4,7 @@ import com.demo.model.User;
 import com.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,8 +35,11 @@ public class UserServiceJpaImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        this.userRepo.delete(id);
+        User user = userRepo.findOne(id);
+        user.getGroups().removeAll(user.getGroups());
+        userRepo.delete(user);
     }
 
 }
