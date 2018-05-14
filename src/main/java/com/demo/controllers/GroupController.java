@@ -6,14 +6,11 @@ import com.demo.services.GroupServiceJpaImpl;
 import com.demo.services.UserServiceJpaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -49,15 +46,25 @@ public class GroupController {
     }
 
     @PostMapping(value = "/groups/edit", params = "usersList[]")
-    @Transactional
+
     public String editGroupAction(@Valid Group group, @RequestParam("usersList[]") Long[] usersIds) {
-        Set<User> users = group.getUsers();
-        for (Long id : usersIds) {
-            User user = userServiceJpaImpl.findById(id);
-            Set<Group> groups = user.getGroups();
-            if (!groups.contains(group)) {
-                groups.add(group);
-//                users.add(user);
+        Group currentGroup = groupServiceJpaImpl.findById(group.getId());
+        Set<User> users = currentGroup.getUsers();
+
+        List<Long> usersIdsList = Arrays.asList(usersIds);
+        List<Long> groupUsersIds = new ArrayList<>();
+
+        for (User user : users) {
+            groupUsersIds.add(user.getId());
+            if (!usersIdsList.contains(user.getId())) {
+                user.getGroups().remove(currentGroup);
+                userServiceJpaImpl.edit(user);
+            }
+        }
+        for (Long id : usersIdsList) {
+            if (!groupUsersIds.contains(id)) {
+                User user = userServiceJpaImpl.findById(id);
+                user.getGroups().add(currentGroup);
                 userServiceJpaImpl.edit(user);
             }
         }

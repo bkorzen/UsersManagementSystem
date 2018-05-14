@@ -6,14 +6,11 @@ import com.demo.services.GroupServiceJpaImpl;
 import com.demo.services.UserServiceJpaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -48,16 +45,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/edit", params = "groupsList[]")
-    @Transactional
+
     public String editUserAction(@Valid User user, @RequestParam("groupsList[]") Long[] groupsIds) {
-        Set<Group> groups = user.getGroups();
         for (Long id : groupsIds) {
             Group group = groupServiceJpaImpl.findById(id);
-            Set<User> users = group.getUsers();
-            if (!users.contains(user)) {
-                users.add(user);
-                groupServiceJpaImpl.edit(group);
-            }
+            user.getGroups().add(group);
         }
         userServiceJpaImpl.edit(user);
         return "redirect:/users";
