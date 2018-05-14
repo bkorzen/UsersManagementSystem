@@ -35,7 +35,6 @@ public class GroupController {
 
     @PostMapping(value = "/groups/delete", params = "groupId")
     public String deleteGroupById(@RequestParam("groupId") Long id) {
-
         groupServiceJpaImpl.deleteById(id);
         return "redirect:/groups";
     }
@@ -58,7 +57,8 @@ public class GroupController {
             Set<Group> groups = user.getGroups();
             if (!groups.contains(group)) {
                 groups.add(group);
-                users.add(user);
+//                users.add(user);
+                userServiceJpaImpl.edit(user);
             }
         }
         groupServiceJpaImpl.edit(group);

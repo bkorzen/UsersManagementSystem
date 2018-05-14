@@ -6,12 +6,14 @@ import com.demo.services.GroupServiceJpaImpl;
 import com.demo.services.UserServiceJpaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -22,7 +24,7 @@ public class UserController {
     @Autowired
     private GroupServiceJpaImpl groupServiceJpaImpl;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping(value = "/users")
     public ModelAndView getAllUsers() {
         ModelAndView model = new ModelAndView();
         Collection<User> users = userServiceJpaImpl.findAll();
@@ -30,7 +32,7 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/users/delete", method = RequestMethod.POST, params = "userId")
+    @PostMapping(value = "/users/delete", params = "userId")
     public String deleteUserById(@RequestParam("userId") Long id) {
         userServiceJpaImpl.deleteById(id);
         return "redirect:/users";
@@ -45,13 +47,23 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/users/edit", method = RequestMethod.POST)
-    public String editUserAction(@Valid User user) {
+    @PostMapping(value = "/users/edit", params = "groupsList[]")
+    @Transactional
+    public String editUserAction(@Valid User user, @RequestParam("groupsList[]") Long[] groupsIds) {
+        Set<Group> groups = user.getGroups();
+        for (Long id : groupsIds) {
+            Group group = groupServiceJpaImpl.findById(id);
+            Set<User> users = group.getUsers();
+            if (!users.contains(user)) {
+                users.add(user);
+                groupServiceJpaImpl.edit(group);
+            }
+        }
         userServiceJpaImpl.edit(user);
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "/users/add", method = RequestMethod.GET)
+    @GetMapping(value = "/users/add")
     public ModelAndView addUserView() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();

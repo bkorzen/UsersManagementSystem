@@ -1,5 +1,6 @@
 package com.demo.services;
 
+import com.demo.model.Group;
 import com.demo.model.User;
 import com.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceJpaImpl implements UserService {
@@ -38,7 +40,11 @@ public class UserServiceJpaImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         User user = userRepo.findOne(id);
-        user.getGroups().removeAll(user.getGroups());
+        Set<Group> groups = user.getGroups();
+        for (Group g : groups) {
+            g.getUsers().remove(user);
+        }
+//        user.getGroups().removeAll(user.getGroups());
         userRepo.delete(user);
     }
 
