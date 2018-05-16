@@ -44,7 +44,6 @@ public class UserServiceJpaImpl implements UserService {
         for (Group g : groups) {
             g.getUsers().remove(user);
         }
-//        user.getGroups().removeAll(user.getGroups());
         userRepo.delete(user);
     }
 

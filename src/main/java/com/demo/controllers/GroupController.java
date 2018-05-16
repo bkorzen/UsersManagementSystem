@@ -5,6 +5,7 @@ import com.demo.model.User;
 import com.demo.services.GroupServiceJpaImpl;
 import com.demo.services.UserServiceJpaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +26,7 @@ public class GroupController {
     @GetMapping(value = "/groups")
     public ModelAndView getAllGroups() {
         ModelAndView model = new ModelAndView();
-        Collection<Group> groups = groupServiceJpaImpl.findAll();
+        List<Group> groups = groupServiceJpaImpl.findAll();
         model.addObject("groups", groups);
         return model;
     }
@@ -46,7 +47,6 @@ public class GroupController {
     }
 
     @PostMapping(value = "/groups/edit", params = "usersList[]")
-
     public String editGroupAction(@Valid Group group, @RequestParam("usersList[]") Long[] usersIds) {
         Group currentGroup = groupServiceJpaImpl.findById(group.getId());
         Set<User> users = currentGroup.getUsers();

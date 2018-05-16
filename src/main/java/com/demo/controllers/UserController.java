@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping(value = "/users")
     public ModelAndView getAllUsers() {
         ModelAndView model = new ModelAndView();
-        Collection<User> users = userServiceJpaImpl.findAll();
+        List<User> users = userServiceJpaImpl.findAll();
         model.addObject("users", users);
         return model;
     }
@@ -45,7 +45,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/edit", params = "groupsList[]")
-
     public String editUserAction(@Valid User user, @RequestParam("groupsList[]") Long[] groupsIds) {
         for (Long id : groupsIds) {
             Group group = groupServiceJpaImpl.findById(id);
@@ -60,7 +59,6 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         List<Group> groups = groupServiceJpaImpl.findAll();
-
         modelAndView.addObject("user", user);
         modelAndView.addObject("groups", groups);
         return modelAndView;
